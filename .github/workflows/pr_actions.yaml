@@ -1,0 +1,88 @@
+name: PR / Actions
+
+on:
+  pull_request:
+    paths:
+    - .github/workflows/pr_actions.yaml
+    - actions.txt
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Validate actions.txt
+      run: |
+        set -euo pipefail
+
+        echo "Checking alphabetical sort order..."
+        if ! LC_ALL=C sort -c actions.txt; then
+          >&2 echo "actions.txt must be sorted alphabetically."
+          exit 1
+        fi
+
+        echo "Checking for trailing whitespace..."
+        if grep -nE '[[:blank:]]+$' actions.txt; then
+          >&2 echo "actions.txt contains trailing whitespace."
+          exit 1
+        fi
+
+        echo "Validating line format (org/repo)..."
+        if grep -nEv '^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+$' actions.txt; then
+          >&2 echo "Every line in actions.txt must match the format org/repo."
+          exit 1
+        fi
+    - name: Check new GitHub Actions
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+
+        echo "Fetching base branch..."
+        git fetch origin "${{ github.base_ref }}" --depth=1
+
+        echo "Identifying added actions..."
+        git show "origin/${{ github.base_ref }}:actions.txt" 2>/dev/null | \
+          LC_ALL=C sort > actions.base.txt || \
+          touch actions.base.txt
+
+        # Sort current actions.txt (already validated, but needed for comm)
+        LC_ALL=C sort actions.txt > actions.current.txt
+
+        # Find added lines
+        added_lines=$(comm -13 actions.base.txt actions.current.txt)
+
+        if [[ -z "$added_lines" ]]; then
+          echo "No new actions added."
+          exit 0
+        fi
+
+        echo "Verifying added actions:"
+        echo "$added_lines"
+
+        while IFS= read -r line; do
+          [[ -z "$line" ]] && continue
+
+          if ! [[ "$line" =~ ^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+$ ]]; then
+            >&2 echo "Invalid format: $line"
+            exit 1
+          fi
+
+          echo "Checking $line..."
+          if ! gh api "repos/$line" --silent >/dev/null; then
+            >&2 echo "Repository does not exist or is not accessible: $line"
+            exit 1
+          fi
+
+          if gh api "repos/$line/contents/action.yml" --silent >/dev/null 2>&1 \
+            || gh api "repos/$line/contents/action.yaml" --silent >/dev/null 2>&1 \
+            || gh api "repos/$line/contents/Dockerfile" --silent >/dev/null 2>&1; then
+            echo "Verified GitHub Action repository: $line"
+            continue
+          fi
+
+          >&2 echo "$line does not appear to be a GitHub Action (missing root action.yml, action.yaml, or Dockerfile)."
+          exit 1
+        done <<< "$added_lines"
