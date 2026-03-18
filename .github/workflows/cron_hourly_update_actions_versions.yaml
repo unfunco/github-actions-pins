@@ -1,0 +1,67 @@
+name: Cron / Hourly Update Actions Versions
+
+on:
+  schedule:
+  - cron: "26 * * * *"
+  workflow_dispatch:
+    inputs:
+      shard:
+        description: Optional shard to process instead of the current UTC hour.
+        required: false
+        type: string
+
+concurrency:
+  cancel-in-progress: false
+  group: hourly-action-version-updates
+
+jobs:
+  update-actions-versions:
+    name: Update Actions Versions
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Select shard
+      id: shard
+      env:
+        INPUT_SHARD: ${{ github.event.inputs.shard }}
+      run: |
+        set -euo pipefail
+
+        shard="${INPUT_SHARD:-}"
+        if [[ -z "$shard" ]]; then
+          shard="$(date -u +%H)"
+        fi
+
+        if ! [[ "$shard" =~ ^([0-9]|0[0-9]|1[0-9]|2[0-3])$ ]]; then
+          >&2 echo "Shard must be an integer between 0 and 23."
+          exit 1
+        fi
+
+        shard="$((10#$shard))"
+
+        echo "Selected shard $shard"
+        echo "shard=$shard" >> "$GITHUB_OUTPUT"
+    - name: Refresh selected shard in state.json
+      id: update-state
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+
+        python3 .github/scripts/update_actions_state.py \
+          --actions-file actions.txt \
+          --state-file state.json \
+          --shard "${{ steps.shard.outputs.shard }}"
+      timeout-minutes: 5
+    - name: Create pull request
+      if: steps.update-state.outputs.changed == 'true'
+      run: |
+        gh pr create \
+          --title "chore: Update versions for shard ${{ steps.select-shard.outputs.shard }}" \
+          --body "This PR updates the versions of Actions in shard ${{ steps.select-shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
+          --head "update-actions-shard-${{ steps.select-shard.outputs.shard }}-$(date -u +%Y%m%d%H%M%S)" \
+          --base main

@@ -48,10 +48,8 @@ jobs:
           LC_ALL=C sort > actions.base.txt || \
           touch actions.base.txt
 
-        # Sort current actions.txt (already validated, but needed for comm)
         LC_ALL=C sort actions.txt > actions.current.txt
 
-        # Find added lines
         added_lines=$(comm -13 actions.base.txt actions.current.txt)
 
         if [[ -z "$added_lines" ]]; then
