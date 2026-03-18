@@ -11,7 +11,6 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-
 SEMVER_TAG_RE = re.compile(
     r"^v?(?P<major>\d+)"
     r"(?:\.(?P<minor>\d+))?"
@@ -113,22 +112,49 @@ def resolve_commit_for_ref(action_name: str, ref_name: str) -> dict:
     return github_get_json(f"/repos/{action_name}/commits/{encoded_ref}")
 
 
+def release_for_tag(action_name: str, tag_name: str) -> dict | None:
+    encoded_tag = urllib.parse.quote(tag_name, safe="")
+    try:
+        return github_get_json(f"/repos/{action_name}/releases/tags/{encoded_tag}")
+    except GitHubNotFoundError:
+        return None
+
+
+def build_action_metadata(
+    action_name: str, tag_name: str, commit: dict, published_at: str
+) -> dict[str, str]:
+    return {
+        "action": action_name,
+        "tag": tag_name,
+        "sha": commit["sha"],
+        "published_at": published_at,
+    }
+
+
+def resolve_action_metadata_for_tag(
+    action_name: str, tag_name: str, release: dict | None = None
+) -> dict[str, str]:
+    commit = resolve_commit_for_ref(action_name, tag_name)
+    if release is None:
+        release = release_for_tag(action_name, tag_name)
+
+    published_at = commit["commit"]["committer"]["date"]
+    if release is not None:
+        published_at = (
+            release.get("published_at")
+            or release.get("created_at")
+            or commit["commit"]["committer"]["date"]
+        )
+
+    return build_action_metadata(action_name, tag_name, commit, published_at)
+
+
 def resolve_action_metadata(action_name: str) -> dict[str, str]:
     try:
         latest_release = github_get_json(f"/repos/{action_name}/releases/latest")
-        tag_name = latest_release["tag_name"]
-        commit = resolve_commit_for_ref(action_name, tag_name)
-        published_at = (
-            latest_release.get("published_at")
-            or latest_release.get("created_at")
-            or commit["commit"]["committer"]["date"]
+        return resolve_action_metadata_for_tag(
+            action_name, latest_release["tag_name"], release=latest_release
         )
-        return {
-            "action": action_name,
-            "tag": tag_name,
-            "sha": commit["sha"],
-            "published_at": published_at,
-        }
     except GitHubNotFoundError:
         tags = github_get_json(f"/repos/{action_name}/tags?per_page=100")
         if not tags:
@@ -136,26 +162,18 @@ def resolve_action_metadata(action_name: str) -> dict[str, str]:
                 f"{action_name} has no published releases or tags to pin."
             ) from None
 
-        tag_name = choose_best_tag(tags)
-        commit = resolve_commit_for_ref(action_name, tag_name)
-        return {
-            "action": action_name,
-            "tag": tag_name,
-            "sha": commit["sha"],
-            "published_at": commit["commit"]["committer"]["date"],
-        }
+        return resolve_action_metadata_for_tag(action_name, choose_best_tag(tags))
 
 
 def load_action_names(actions_file: Path) -> list[str]:
-    actions = [line.strip() for line in actions_file.read_text().splitlines() if line.strip()]
+    actions = [
+        line.strip() for line in actions_file.read_text().splitlines() if line.strip()
+    ]
     return actions
 
 
-def load_state_entries(state_file: Path) -> dict[str, dict[str, str]]:
-    if not state_file.exists():
-        return {}
-
-    raw_text = state_file.read_text().strip()
+def parse_state_entries(raw_text: str) -> dict[str, dict[str, str]]:
+    raw_text = raw_text.strip()
     if not raw_text:
         return {}
 
@@ -174,7 +192,9 @@ def load_state_entries(state_file: Path) -> dict[str, dict[str, str]]:
 
         action_name = entry.get("action")
         if not isinstance(action_name, str) or not action_name:
-            raise SystemExit("Each state.json action entry must include a non-empty 'action'.")
+            raise SystemExit(
+                "Each state.json action entry must include a non-empty 'action'."
+            )
 
         by_action[action_name] = {
             "action": action_name,
@@ -186,8 +206,17 @@ def load_state_entries(state_file: Path) -> dict[str, dict[str, str]]:
     return by_action
 
 
+def load_state_entries(state_file: Path) -> dict[str, dict[str, str]]:
+    if not state_file.exists():
+        return {}
+
+    return parse_state_entries(state_file.read_text())
+
+
 def serialize_state(entries_by_action: dict[str, dict[str, str]]) -> str:
-    ordered_entries = [entries_by_action[action] for action in sorted(entries_by_action)]
+    ordered_entries = [
+        entries_by_action[action] for action in sorted(entries_by_action)
+    ]
     return json.dumps({"actions": ordered_entries}, indent=2) + "\n"
 
 
@@ -202,7 +231,9 @@ def main() -> int:
 
     all_actions = load_action_names(actions_file)
     selected_actions = [
-        action_name for action_name in all_actions if shard_for(action_name) == args.shard
+        action_name
+        for action_name in all_actions
+        if shard_for(action_name) == args.shard
     ]
 
     print(
@@ -223,7 +254,10 @@ def main() -> int:
     if github_output:
         with open(github_output, "a", encoding="utf-8") as output:
             print(f"selected_count={len(selected_actions)}", file=output)
-            print(f"changed={'true' if next_text != original_text else 'false'}", file=output)
+            print(
+                f"changed={'true' if next_text != original_text else 'false'}",
+                file=output,
+            )
 
     return 0
 
