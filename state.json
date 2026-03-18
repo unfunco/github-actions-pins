@@ -13,6 +13,12 @@
       "published_at": "2026-03-05T06:26:24Z"
     },
     {
+      "action": "actions/checkout",
+      "tag": "v6.0.2",
+      "sha": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+      "published_at": "2026-01-09T19:53:28Z"
+    },
+    {
       "action": "actions/labeler",
       "tag": "v6.0.1",
       "sha": "634933edcd8ababfe52f92936142cc22ac488b1b",
