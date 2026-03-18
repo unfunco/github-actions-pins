@@ -7,6 +7,12 @@
       "published_at": "2026-03-05T06:26:24Z"
     },
     {
+      "action": "actions/upload-artifact",
+      "tag": "v7.0.0",
+      "sha": "bbbca2ddaa5d8feaa63e36b76fdaad77386f024f",
+      "published_at": "2026-02-26T18:21:17Z"
+    },
+    {
       "action": "codecov/codecov-action",
       "tag": "v5.5.2",
       "sha": "671740ac38dd9b0130fbe1cec585b89eea48d3de",
