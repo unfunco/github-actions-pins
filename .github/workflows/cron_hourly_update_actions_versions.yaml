@@ -123,19 +123,11 @@ jobs:
           --base main)"
 
         echo "pr-url=$pr_url" >> "$GITHUB_OUTPUT"
-    - name: Wait for pull request checks
+    - name: Enable pull request auto-merge
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
       if: steps.update-state.outputs.changed == 'true'
       run: |
         set -euo pipefail
 
-        gh pr checks "${{ steps.create-pull-request.outputs.pr-url }}" --watch --fail-fast
-    - name: Merge pull request
-      env:
-        GH_TOKEN: ${{ steps.app-token.outputs.token }}
-      if: steps.update-state.outputs.changed == 'true'
-      run: |
-        set -euo pipefail
-
-        gh pr merge --squash --delete-branch "${{ steps.create-pull-request.outputs.pr-url }}"
+        gh pr merge --auto --squash --delete-branch "${{ steps.create-pull-request.outputs.pr-url }}"
