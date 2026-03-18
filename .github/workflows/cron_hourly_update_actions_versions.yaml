@@ -62,6 +62,8 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       if: steps.update-state.outputs.changed == 'true'
       run: |
+        gh --version
+
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
@@ -77,6 +79,5 @@ jobs:
           --body "This updates the versions of GitHub Actions in shard ${{ steps.shard.outputs.shard }} to the latest versions published on the GitHub Marketplace." \
           --label "automata 🤖" \
           --label "chore 🧹" \
-          --reviewer "@copilot" \
           --head "$branch" \
           --base main
