@@ -1,8 +1,8 @@
-# 🧰 GitHub toolbox
+# 🧰 Toolbox
 
-GitHub toolbox is a growing collection of GitHub cheatsheets. Right now it ships the `Pins` tool for looking up pinned `uses:` lines for popular GitHub Actions.
+Toolbox is a growing collection of handy cheatsheets and utilities. Right now it ships `Pin your GitHub Actions`, a tool for looking up pinned `uses:` lines for popular GitHub Actions.
 
-## Pins data
+## Pin your GitHub Actions
 
 - Source list: `src/pins/actions.txt`
 - Resolved metadata: `data/pins.json`
