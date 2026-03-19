@@ -41,7 +41,7 @@ def parse_args() -> argparse.Namespace:
 def api_headers() -> dict[str, str]:
     headers = {
         "Accept": "application/vnd.github+json",
-        "User-Agent": "github-toolbox-pins-updater",
+        "User-Agent": "toolbox-pins-updater",
         "X-GitHub-Api-Version": "2022-11-28",
     }
 
