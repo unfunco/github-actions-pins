@@ -2,7 +2,7 @@ name: Cron / Hourly Refresh Pins
 
 on:
   schedule:
-  - cron: "26 * * * *"
+  - cron: '26 * * * *'
   workflow_dispatch:
     inputs:
       shard:

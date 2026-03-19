@@ -1,0 +1,18 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "@unfunco/toolbox",
+      "devDependencies": {
+        "@unfunco/prettier-plugin-yaml": "0.2.0",
+        "prettier": "3.8.1",
+      },
+    },
+  },
+  "packages": {
+    "@unfunco/prettier-plugin-yaml": ["@unfunco/prettier-plugin-yaml@0.2.0", "", { "peerDependencies": { "prettier": "^3.0.0" } }, "sha512-AUjSk9A4i28+OyFRVPr1Flaj7TLvX1HaTpG19TjCOsOQzNo6Dr5EOTzUvyMObEz16kRl8wWNqQZVudtvl6i8bg=="],
+
+    "prettier": ["prettier@3.8.1", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg=="],
+  }
+}

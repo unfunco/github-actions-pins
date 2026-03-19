@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@unfunco/prettier-plugin-yaml": "0.2.0",
+    "prettier": "3.8.1"
+  },
+  "license": "MIT",
+  "name": "@unfunco/toolbox",
+  "private": true,
+  "scripts": {
+    "build": "",
+    "fmt:check": "prettier --check .",
+    "fmt:fix": "prettier --write .",
+    "start": ""
+  }
+}
