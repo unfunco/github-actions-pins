@@ -13,6 +13,12 @@
       "published_at": "2026-03-05T06:26:24Z"
     },
     {
+      "action": "actions/cache",
+      "tag": "v5.0.4",
+      "sha": "668228422ae6a00e4ad889ee87cd7109ec5666a7",
+      "published_at": "2026-03-18T15:04:42Z"
+    },
+    {
       "action": "actions/checkout",
       "tag": "v6.0.2",
       "sha": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
@@ -25,10 +31,22 @@
       "published_at": "2024-03-30T00:49:12Z"
     },
     {
+      "action": "actions/create-release",
+      "tag": "v1.1.4",
+      "sha": "0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e",
+      "published_at": "2020-09-14T13:55:07Z"
+    },
+    {
       "action": "actions/first-interaction",
       "tag": "v3.1.0",
       "sha": "1c4688942c71f71d4f5502a26ea67c331730fa4d",
       "published_at": "2025-10-03T13:58:45Z"
+    },
+    {
+      "action": "actions/github-script",
+      "tag": "v8",
+      "sha": "ed597411d8f924073f98dfc5c65a23a2325f34cd",
+      "published_at": "2025-09-04T14:57:03Z"
     },
     {
       "action": "actions/labeler",
@@ -53,6 +71,12 @@
       "tag": "v5.5.2",
       "sha": "671740ac38dd9b0130fbe1cec585b89eea48d3de",
       "published_at": "2025-12-09T19:21:50Z"
+    },
+    {
+      "action": "hashicorp/setup-terraform",
+      "tag": "v4.0.0",
+      "sha": "5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85",
+      "published_at": "2026-02-24T10:59:16Z"
     },
     {
       "action": "peter-evans/create-pull-request",
