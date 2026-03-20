@@ -139,6 +139,12 @@
       "published_at": "2026-03-17T23:14:55Z"
     },
     {
+      "action": "googleapis/release-please-action",
+      "tag": "v4.4.0",
+      "sha": "16a9c90856f42705d54a6fda1823352bdc62cf38",
+      "published_at": "2025-10-23T18:05:33Z"
+    },
+    {
       "action": "hashicorp/setup-terraform",
       "tag": "v4.0.0",
       "sha": "5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85",
