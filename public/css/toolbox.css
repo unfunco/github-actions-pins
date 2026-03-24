@@ -6,14 +6,6 @@
   src: url('../fonts/mona-sans-normal.woff2') format('woff2-variations');
 }
 
-@font-face {
-  font-display: swap;
-  font-family: 'Mona Sans';
-  font-style: italic;
-  font-weight: 200 900;
-  src: url('../fonts/mona-sans-italic.woff2') format('woff2-variations');
-}
-
 *,
 *::before,
 *::after {
@@ -44,6 +36,15 @@ body {
   line-height: 1.5;
   margin: 0;
   -webkit-font-smoothing: antialiased;
+}
+
+em,
+i,
+cite,
+dfn,
+var,
+address {
+  font-style: normal;
 }
 
 a {
@@ -216,7 +217,6 @@ code {
 
 .result-empty {
   color: var(--color-muted);
-  font-style: italic;
 }
 
 .pin-result {

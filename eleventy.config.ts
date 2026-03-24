@@ -7,8 +7,6 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addPassthroughCopy({
     'node_modules/@fontsource-variable/mona-sans/files/mona-sans-latin-wght-normal.woff2':
       'fonts/mona-sans-normal.woff2',
-    'node_modules/@fontsource-variable/mona-sans/files/mona-sans-latin-wght-italic.woff2':
-      'fonts/mona-sans-italic.woff2',
   })
 }
 
