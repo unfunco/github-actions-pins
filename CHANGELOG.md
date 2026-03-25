@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/unfunco/toolbox/compare/v0.1.0...v0.1.1) (2026-03-25)
+
+
+### 🧹 Miscellaneous
+
+* Add aws-actions/amazon-ecr-login ([d3fc947](https://github.com/unfunco/toolbox/commit/d3fc94762a83a2824437b146c4fe23ee565a7b5a))
+
 ## 0.1.0 (2026-03-24)
 
 
