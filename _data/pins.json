@@ -19,6 +19,12 @@
       "published_at": "2024-06-24T21:04:37Z"
     },
     {
+      "action": "actions/ai-inference",
+      "tag": "v2.0.7",
+      "sha": "e09e65981758de8b2fdab13c2bfb7c7d5493b0b6",
+      "published_at": "2026-02-24T15:41:12Z"
+    },
+    {
       "action": "actions/attest-build-provenance",
       "tag": "v4.1.0",
       "sha": "a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32",
@@ -53,6 +59,12 @@
       "tag": "v1.1.4",
       "sha": "0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e",
       "published_at": "2020-09-14T13:55:07Z"
+    },
+    {
+      "action": "actions/dependency-review-action",
+      "tag": "v4.9.0",
+      "sha": "2031cfc080254a8a887f58cffee85186f0e49e48",
+      "published_at": "2026-03-03T22:21:10Z"
     },
     {
       "action": "actions/deploy-pages",
