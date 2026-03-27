@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/unfunco/toolbox/compare/v0.1.2...v0.2.0) (2026-03-27)
+
+
+### 🎉 New features
+
+* Add an issue template for requests ([614cf37](https://github.com/unfunco/toolbox/commit/614cf37aeb0cf67c8be850ce7ce0838f26da69fb))
+
+
+### 🧹 Miscellaneous
+
+* Add cli/gh-extension-precompile to actions.txt ([#48](https://github.com/unfunco/toolbox/issues/48)) ([b80eaa0](https://github.com/unfunco/toolbox/commit/b80eaa071c46159b5214f7d8fde1b508a144dd77))
+
 ## [0.1.2](https://github.com/unfunco/toolbox/compare/v0.1.1...v0.1.2) (2026-03-26)
 
 
