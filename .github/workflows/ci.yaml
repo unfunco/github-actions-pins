@@ -98,7 +98,7 @@ jobs:
       run: gh release edit ${{ steps.release.outputs.tag_name }} --draft=false
 
   deploy:
-    if: ${{ github.ref == 'refs/heads/main' && needs.release.outputs.release_created == 'true' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     name: Deploy
     concurrency:
       cancel-in-progress: false
