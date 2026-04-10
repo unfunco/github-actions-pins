@@ -152,9 +152,9 @@
     },
     {
       "action": "actions/upload-artifact",
-      "tag": "v7.0.0",
-      "sha": "bbbca2ddaa5d8feaa63e36b76fdaad77386f024f",
-      "published_at": "2026-02-26T18:21:17Z"
+      "tag": "v7.0.1",
+      "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+      "published_at": "2026-04-10T17:31:14Z"
     },
     {
       "action": "actions/upload-pages-artifact",
