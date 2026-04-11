@@ -44,17 +44,25 @@ def changed_files(base_ref: str) -> list[str]:
     return [line for line in output.splitlines() if line]
 
 
-def load_base_pin_entries(base_ref: str, pins_file: str) -> dict[str, dict[str, str]]:
-    completed = subprocess.run(
-        ["git", "show", f"{base_ref}:{pins_file}"],
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    if completed.returncode != 0:
-        return {}
+def base_path_candidates(path: str) -> list[str]:
+    candidates = [path]
+    if path == "pins.json":
+        candidates.append("_data/pins.json")
+    return candidates
 
-    return parse_pin_entries(completed.stdout)
+
+def load_base_pin_entries(base_ref: str, pins_file: str) -> dict[str, dict[str, str]]:
+    for candidate in base_path_candidates(pins_file):
+        completed = subprocess.run(
+            ["git", "show", f"{base_ref}:{candidate}"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if completed.returncode == 0:
+            return parse_pin_entries(completed.stdout)
+
+    return {}
 
 
 def changed_action_names(

@@ -3,7 +3,7 @@ name: PR / Pins Data
 on:
   pull_request:
     paths:
-    - _data/pins.json
+    - pins.json
     - .github/scripts/update_pins.py
     - .github/scripts/validate_pins_pr.py
     - .github/workflows/pr_pins_data.yaml
@@ -24,6 +24,6 @@ jobs:
         set -euo pipefail
 
         python3 .github/scripts/validate_pins_pr.py \
-          --actions-file pins/actions.txt \
-          --pins-file _data/pins.json \
+          --actions-file actions.txt \
+          --pins-file pins.json \
           --base-ref "${{ github.event.pull_request.base.sha }}"

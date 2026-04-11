@@ -5,7 +5,7 @@ on:
     branches:
     - main
     paths:
-    - _data/pins.json
+    - pins.json
     - .github/workflows/ci.yaml
   workflow_dispatch: { }
 
@@ -26,10 +26,10 @@ jobs:
       run: |
         set -euo pipefail
 
-        python3 -m json.tool _data/pins.json >/dev/null
+        python3 -m json.tool pins.json >/dev/null
         rm -rf dist
         mkdir -p dist
-        cp _data/pins.json dist/pins.json
+        cp pins.json dist/pins.json
     - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
       with:
