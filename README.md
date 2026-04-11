@@ -1,11 +1,6 @@
 # GitHub Actions Pins
 
-Track release metadata for a curated list of GitHub Actions so workflows can pin immutable SHAs.
-
-## Files
-
-- `actions.txt` is the sorted source list of GitHub Actions to track.
-- `pins.json` is the generated metadata file refreshed by automation and published via GitHub Pages.
+A repository for tracking pinned GitHub Actions metadata.
 
 ## License
 
