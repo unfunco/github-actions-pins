@@ -27,8 +27,8 @@
     {
       "action": "Homebrew/actions/git-try-push",
       "tag": "main",
-      "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
-      "published_at": "2026-04-10T08:20:35Z"
+      "sha": "98cfa07b984a61682e6cd3a0833fad2006cc84ba",
+      "published_at": "2026-04-17T08:23:36Z"
     },
     {
       "action": "Homebrew/actions/git-user-config",
@@ -53,6 +53,12 @@
       "tag": "main",
       "sha": "59e6b20d96df1a3c9ccb0aa402676e01a4cc6ff3",
       "published_at": "2026-04-10T08:20:35Z"
+    },
+    {
+      "action": "JasonEtco/create-an-issue",
+      "tag": "v2.9.2",
+      "sha": "1b14a70e4d8dc185e5cc76d3bec9eab20257b2c5",
+      "published_at": "2024-02-15T00:15:33Z"
     },
     {
       "action": "actions/add-to-project",
