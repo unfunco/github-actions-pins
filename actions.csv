@@ -7,6 +7,7 @@ Homebrew/actions/git-user-config,main
 Homebrew/actions/setup-commit-signing,main
 Homebrew/actions/setup-homebrew,main
 Homebrew/actions/setup-ruby,main
+JasonEtco/create-an-issue,
 actions/add-to-project,
 actions/ai-inference,
 actions/attest-build-provenance,
