@@ -242,9 +242,9 @@
     },
     {
       "action": "codecov/codecov-action",
-      "tag": "v6.0.0",
-      "sha": "57e3a136b779b570ffcdbf80b3bdc90e7fab3de2",
-      "published_at": "2026-03-26T14:01:32Z"
+      "tag": "v6.0.1",
+      "sha": "e79a6962e0d4c0c17b229090214935d2e33f8354",
+      "published_at": "2026-05-18T18:36:53Z"
     },
     {
       "action": "docker/build-push-action",
