@@ -248,9 +248,9 @@
     },
     {
       "action": "docker/build-push-action",
-      "tag": "v7.1.0",
-      "sha": "bcafcacb16a39f128d818304e6c9c0c18556b85f",
-      "published_at": "2026-04-10T09:59:25Z"
+      "tag": "v7.2.0",
+      "sha": "f9f3042f7e2789586610d6e8b85c8f03e5195baf",
+      "published_at": "2026-05-21T15:23:58Z"
     },
     {
       "action": "docker/login-action",
