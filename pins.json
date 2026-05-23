@@ -15,8 +15,8 @@
     {
       "action": "Homebrew/actions/cache-homebrew-prefix",
       "tag": "main",
-      "sha": "dfde531ec35b04b9b7bd9b2ef461ff8dda482b42",
-      "published_at": "2026-05-22T09:12:49Z"
+      "sha": "6eaeff80e7e5c43087c0e5eb5aa82120399e9c91",
+      "published_at": "2026-05-22T10:55:51Z"
     },
     {
       "action": "Homebrew/actions/create-or-update-issue",
@@ -39,8 +39,8 @@
     {
       "action": "Homebrew/actions/setup-commit-signing",
       "tag": "main",
-      "sha": "dfde531ec35b04b9b7bd9b2ef461ff8dda482b42",
-      "published_at": "2026-05-22T09:12:49Z"
+      "sha": "6eaeff80e7e5c43087c0e5eb5aa82120399e9c91",
+      "published_at": "2026-05-22T10:55:51Z"
     },
     {
       "action": "Homebrew/actions/setup-homebrew",
