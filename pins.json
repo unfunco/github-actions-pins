@@ -92,9 +92,9 @@
     },
     {
       "action": "actions/checkout",
-      "tag": "v6.0.2",
-      "sha": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
-      "published_at": "2026-01-09T19:53:28Z"
+      "tag": "v6.0.3",
+      "sha": "df4cb1c069e1874edd31b4311f1884172cec0e10",
+      "published_at": "2026-06-02T14:35:13Z"
     },
     {
       "action": "actions/configure-pages",
@@ -284,9 +284,9 @@
     },
     {
       "action": "github/codeql-action/upload-sarif",
-      "tag": "codeql-bundle-v2.25.5",
-      "sha": "84498526a009a99c875e83ef4821a8ba52de7c22",
-      "published_at": "2026-05-22T10:16:45Z"
+      "tag": "codeql-bundle-v2.25.6",
+      "sha": "c35d1b164463ee62a100735382aaaa525c5d3496",
+      "published_at": "2026-06-04T10:41:08Z"
     },
     {
       "action": "googleapis/release-please-action",
