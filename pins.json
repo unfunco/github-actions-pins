@@ -45,8 +45,8 @@
     {
       "action": "Homebrew/actions/setup-homebrew",
       "tag": "main",
-      "sha": "2ebcf16054461267868620b1414507f3ccc765c1",
-      "published_at": "2026-06-05T09:11:43Z"
+      "sha": "caddd704cd8c1cbb45f9f3dfbd1f77d1f81e97f0",
+      "published_at": "2026-06-12T08:36:34Z"
     },
     {
       "action": "Homebrew/actions/setup-ruby",
@@ -224,9 +224,9 @@
     },
     {
       "action": "aws-actions/amazon-ecr-login",
-      "tag": "v2.1.5",
-      "sha": "fa648b43de3d4d023bcb3f89ed6940096949c419",
-      "published_at": "2026-05-06T20:33:25Z"
+      "tag": "v2.1.6",
+      "sha": "d539f0932e70871a027e9d5a9d8fc38589180a64",
+      "published_at": "2026-06-12T23:35:44Z"
     },
     {
       "action": "aws-actions/configure-aws-credentials",
