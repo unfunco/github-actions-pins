@@ -92,9 +92,9 @@
     },
     {
       "action": "actions/checkout",
-      "tag": "v6.0.3",
-      "sha": "df4cb1c069e1874edd31b4311f1884172cec0e10",
-      "published_at": "2026-06-02T14:35:13Z"
+      "tag": "v7.0.0",
+      "sha": "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+      "published_at": "2026-06-18T13:53:05Z"
     },
     {
       "action": "actions/configure-pages",
