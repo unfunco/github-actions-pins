@@ -236,9 +236,9 @@
     },
     {
       "action": "cli/gh-extension-precompile",
-      "tag": "v2.1.0",
-      "sha": "9e2237c30f869ad3bcaed6a4be2cd43564dd421b",
-      "published_at": "2025-06-27T14:12:23Z"
+      "tag": "v2.2.0",
+      "sha": "76961aa3bd1123d0a6fd42d0a41aca0696937c39",
+      "published_at": "2026-06-19T19:59:02Z"
     },
     {
       "action": "codecov/codecov-action",
