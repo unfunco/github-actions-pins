@@ -286,7 +286,7 @@ class SourceValidationTest(unittest.TestCase):
             )
         )
 
-    def test_validates_reusable_workflow_file(self) -> None:
+    def test_validates_reusable_workflow_file_on_default_branch(self) -> None:
         with mock.patch.object(
             validate_actions_source,
             "github_get_json",
@@ -302,6 +302,80 @@ class SourceValidationTest(unittest.TestCase):
 
         path_exists.assert_called_once_with(
             "/repos/owner/workflows/contents/.github/workflows/reusable.yml"
+        )
+
+    def test_validates_reusable_workflow_file_at_resolved_ref(self) -> None:
+        commit_sha = "a" * 40
+        call_order = []
+
+        def resolve_ref(action: str, ref: str) -> dict[str, str]:
+            call_order.append("resolve")
+            return {"sha": commit_sha}
+
+        def path_exists(path: str) -> bool:
+            call_order.append("path")
+            return True
+
+        with mock.patch.object(
+            validate_actions_source,
+            "resolve_commit_for_ref",
+            side_effect=resolve_ref,
+        ) as resolve, mock.patch.object(
+            validate_actions_source,
+            "github_get_json",
+            return_value={"full_name": "owner/workflows"},
+        ), mock.patch.object(
+            validate_actions_source,
+            "github_path_exists",
+            side_effect=path_exists,
+        ) as exists:
+            validate_actions_source.validate_source_entry(
+                update_pins.ActionSource(
+                    "owner/workflows/.github/workflows/reusable.yml",
+                    "release",
+                )
+            )
+
+        resolve.assert_called_once_with(
+            "owner/workflows/.github/workflows/reusable.yml", "release"
+        )
+        exists.assert_called_once_with(
+            "/repos/owner/workflows/contents/"
+            f".github/workflows/reusable.yml?ref={commit_sha}"
+        )
+        self.assertEqual(call_order, ["resolve", "path"])
+
+    def test_rejects_workflow_missing_at_resolved_ref(self) -> None:
+        commit_sha = "b" * 40
+
+        def path_exists(path: str) -> bool:
+            return "?ref=" not in path
+
+        with mock.patch.object(
+            validate_actions_source,
+            "resolve_commit_for_ref",
+            return_value={"sha": commit_sha},
+        ), mock.patch.object(
+            validate_actions_source,
+            "github_get_json",
+            return_value={"full_name": "owner/workflows"},
+        ), mock.patch.object(
+            validate_actions_source,
+            "github_path_exists",
+            side_effect=path_exists,
+        ) as exists, self.assertRaisesRegex(
+            SystemExit, "does not appear to be a reusable workflow"
+        ):
+            validate_actions_source.validate_source_entry(
+                update_pins.ActionSource(
+                    "owner/workflows/.github/workflows/reusable.yml",
+                    "old-release",
+                )
+            )
+
+        exists.assert_called_once_with(
+            "/repos/owner/workflows/contents/"
+            f".github/workflows/reusable.yml?ref={commit_sha}"
         )
 
 
