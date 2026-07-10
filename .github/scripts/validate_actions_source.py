@@ -76,6 +76,13 @@ def subpath_for_action(action_name: str) -> Optional[str]:
     return parts[2]
 
 
+def is_reusable_workflow_subpath(subpath: str) -> bool:
+    return (
+        subpath.startswith(".github/workflows/")
+        and (subpath.endswith(".yml") or subpath.endswith(".yaml"))
+    )
+
+
 def validate_action_exists(action_name: str) -> None:
     repo = repo_for_action(action_name)
     try:
@@ -85,6 +92,16 @@ def validate_action_exists(action_name: str) -> None:
 
     subpath = subpath_for_action(action_name)
     if subpath is not None:
+        if is_reusable_workflow_subpath(subpath):
+            if github_path_exists(f"/repos/{repo}/contents/{subpath}"):
+                print(f"Verified reusable workflow: {action_name}")
+                return
+
+            raise SystemExit(
+                f"{action_name} does not appear to be a reusable workflow "
+                f"(missing {subpath})."
+            )
+
         if github_path_exists(f"/repos/{repo}/contents/{subpath}/action.yml") or github_path_exists(
             f"/repos/{repo}/contents/{subpath}/action.yaml"
         ):
