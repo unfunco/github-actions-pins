@@ -8,6 +8,7 @@ from pathlib import Path
 from update_pins import (
     ACTION_NAME_RE,
     REF_OVERRIDE_RE,
+    SHA_RE,
     ActionSource,
     load_action_sources,
     load_pin_entries,
@@ -45,6 +46,7 @@ def parse_issue_actions(body: str) -> list[ActionSource]:
     in_actions_section = False
     action_sources: list[ActionSource] = []
     seen_by_action: dict[str, ActionSource] = {}
+    saw_reference = False
 
     for line in body.splitlines():
         if line.strip() == "### Actions":
@@ -64,6 +66,10 @@ def parse_issue_actions(body: str) -> list[ActionSource]:
             raise SystemExit("Actions section bullets must contain backtick references.")
 
         action_source = parse_action_reference(item[1:-1])
+        saw_reference = True
+        if SHA_RE.fullmatch(action_source.ref_override or "") is not None:
+            continue
+
         previous = seen_by_action.get(action_source.action)
         if previous is not None and previous != action_source:
             raise SystemExit(
@@ -77,7 +83,7 @@ def parse_issue_actions(body: str) -> list[ActionSource]:
 
     if not in_actions_section:
         raise SystemExit("Issue body must contain an '### Actions' section.")
-    if not action_sources:
+    if not saw_reference:
         raise SystemExit("Issue Actions section must contain at least one action.")
 
     return action_sources
@@ -131,7 +137,7 @@ def main() -> int:
     if changed_actions:
         print("Added " + ", ".join(changed_actions) + ".")
     else:
-        print("All requested actions are already pinned.")
+        print("No pin-list changes were needed.")
 
     return 0
 

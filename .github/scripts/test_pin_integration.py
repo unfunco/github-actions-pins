@@ -45,6 +45,36 @@ These actions were resolved live by `gh pin`.
         with self.assertRaisesRegex(SystemExit, "multiple refs"):
             add_actions_from_issue.parse_issue_actions(body)
 
+    def test_deduplicates_exact_action_ref(self) -> None:
+        body = """### Actions
+
+- `owner/action/subpath@v1`
+- `owner/action/subpath@v1`
+"""
+
+        self.assertEqual(
+            add_actions_from_issue.parse_issue_actions(body),
+            [update_pins.ActionSource("owner/action/subpath", "v1")],
+        )
+
+    def test_ignores_full_sha_refs(self) -> None:
+        sha = "a" * 40
+        body = f"""### Actions
+
+- `owner/action@{sha}`
+"""
+
+        self.assertEqual(add_actions_from_issue.parse_issue_actions(body), [])
+
+    def test_rejects_malformed_action_bullet(self) -> None:
+        body = """### Actions
+
+- owner/action@v1
+"""
+
+        with self.assertRaisesRegex(SystemExit, "backtick references"):
+            add_actions_from_issue.parse_issue_actions(body)
+
     def test_adds_source_and_pin_using_reported_ref(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             actions_file = Path(directory, "actions.csv")
@@ -101,6 +131,67 @@ These actions were resolved live by `gh pin`.
 
             self.assertEqual(changed, ["owner/action"])
             self.assertEqual(actions_file.read_text(), "owner/action,v4\n")
+
+    def test_preserves_multiple_paths_from_one_repository(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            actions_file = Path(directory, "actions.csv")
+            pins_file = Path(directory, "pins.json")
+            actions_file.write_text("")
+            pins_file.write_text('{"actions": []}\n')
+            body = """### Actions
+
+- `owner/repo/action-a@v1`
+- `owner/repo/.github/workflows/build.yml@v2`
+"""
+
+            def metadata(action: str, ref: str) -> dict[str, str]:
+                return {
+                    "action": action,
+                    "tag": ref,
+                    "sha": ("a" if ref == "v1" else "b") * 40,
+                    "published_at": "2026-07-10T10:00:00Z",
+                }
+
+            with mock.patch.object(
+                add_actions_from_issue,
+                "resolve_action_metadata",
+                side_effect=metadata,
+            ) as resolve:
+                changed = add_actions_from_issue.update_from_issue(
+                    body, actions_file, pins_file
+                )
+
+            self.assertEqual(
+                changed,
+                [
+                    "owner/repo/action-a",
+                    "owner/repo/.github/workflows/build.yml",
+                ],
+            )
+            self.assertEqual(
+                actions_file.read_text(),
+                "owner/repo/.github/workflows/build.yml,v2\n"
+                "owner/repo/action-a,v1\n",
+            )
+            self.assertEqual(
+                [
+                    entry["action"]
+                    for entry in json.loads(pins_file.read_text())["actions"]
+                ],
+                [
+                    "owner/repo/.github/workflows/build.yml",
+                    "owner/repo/action-a",
+                ],
+            )
+            self.assertEqual(
+                resolve.call_args_list,
+                [
+                    mock.call("owner/repo/action-a", "v1"),
+                    mock.call(
+                        "owner/repo/.github/workflows/build.yml", "v2"
+                    ),
+                ],
+            )
 
 
 class PinsContractTest(unittest.TestCase):
@@ -165,6 +256,20 @@ class PinsContractTest(unittest.TestCase):
         self.assertEqual(
             update_pins.prune_pin_entries(entries, {"owner/kept"}),
             {"owner/kept": {"action": "owner/kept"}},
+        )
+
+    def test_resolves_subpath_ref_against_root_repository(self) -> None:
+        with mock.patch.object(
+            update_pins,
+            "github_get_json",
+            return_value={"sha": "a" * 40},
+        ) as github_get_json:
+            update_pins.resolve_commit_for_ref(
+                "owner/repo/.github/workflows/build.yml", "v1"
+            )
+
+        github_get_json.assert_called_once_with(
+            "/repos/owner/repo/commits/v1"
         )
 
 
