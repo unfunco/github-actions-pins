@@ -2,7 +2,7 @@ name: Issue / Add Pins
 
 on:
   issues:
-    types: [ opened, labeled ]
+    types: [ labeled ]
 
 concurrency:
   cancel-in-progress: false
@@ -12,12 +12,7 @@ jobs:
   add-pins:
     if: >-
       github.event.issue.title == 'Add actions to pin list' &&
-      (
-        (github.event.action == 'opened' &&
-          contains(github.event.issue.labels.*.name, 'pins')) ||
-        (github.event.action == 'labeled' &&
-          github.event.label.name == 'pins')
-      )
+      github.event.label.name == 'pins'
     name: Add Pins
     permissions:
       contents: read
