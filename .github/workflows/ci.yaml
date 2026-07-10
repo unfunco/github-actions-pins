@@ -22,7 +22,9 @@ jobs:
       run: |
         set -euo pipefail
 
-        python3 -m json.tool pins.json >/dev/null
+        python3 .github/scripts/validate_pins.py \
+          --actions-file actions.csv \
+          --pins-file pins.json
 
   deploy:
     if: ${{ github.ref == 'refs/heads/main' }}

@@ -12,11 +12,17 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 ACTION_NAME_RE = re.compile(r"^[A-Za-z0-9-]+/[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$")
 REF_OVERRIDE_RE = re.compile(r"^[^,\s]+$")
+PIN_ENTRY_KEYS = {"action", "tag", "sha", "published_at"}
+RFC3339_RE = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
+)
+SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 SEMVER_TAG_RE = re.compile(
     r"^v?(?P<major>\d+)"
     r"(?:\.(?P<minor>\d+))?"
@@ -308,6 +314,22 @@ def serialize_action_sources(action_sources: list[ActionSource]) -> str:
     return output.getvalue()
 
 
+def validate_rfc3339(value: str) -> bool:
+    if RFC3339_RE.fullmatch(value) is None:
+        return False
+
+    iso_value = value.removesuffix("Z")
+    if value.endswith("Z"):
+        iso_value += "+00:00"
+
+    try:
+        datetime.fromisoformat(iso_value)
+    except ValueError:
+        return False
+
+    return True
+
+
 def parse_pin_entries(raw_text: str) -> dict[str, dict[str, str]]:
     raw_text = raw_text.strip()
     if not raw_text:
@@ -317,24 +339,58 @@ def parse_pin_entries(raw_text: str) -> dict[str, dict[str, str]]:
     if raw_state == {}:
         return {}
 
-    entries = raw_state.get("actions")
+    if not isinstance(raw_state, dict) or set(raw_state) != {"actions"}:
+        raise SystemExit("Pins data must contain only an 'actions' array.")
+
+    entries = raw_state["actions"]
     if not isinstance(entries, list):
         raise SystemExit("Pins data must contain an object with an 'actions' array.")
 
     by_action: dict[str, dict[str, str]] = {}
-    for entry in entries:
+    for index, entry in enumerate(entries, start=1):
         if not isinstance(entry, dict):
             raise SystemExit("Each pins data entry must be an object.")
 
+        if set(entry) != PIN_ENTRY_KEYS:
+            raise SystemExit(
+                f"Pins data entry {index} must contain exactly: "
+                "action, tag, sha, published_at."
+            )
+
         action_name = entry.get("action")
-        if not isinstance(action_name, str) or not action_name:
-            raise SystemExit("Each pins data entry must include a non-empty 'action'.")
+        if (
+            not isinstance(action_name, str)
+            or ACTION_NAME_RE.fullmatch(action_name) is None
+        ):
+            raise SystemExit(
+                f"Pins data entry {index} action must match "
+                "org/repo or org/repo/subpath."
+            )
+
+        tag = entry.get("tag")
+        if not isinstance(tag, str) or REF_OVERRIDE_RE.fullmatch(tag) is None:
+            raise SystemExit(f"Pins data entry {index} must include a valid tag.")
+
+        sha = entry.get("sha")
+        if not isinstance(sha, str) or SHA_RE.fullmatch(sha) is None:
+            raise SystemExit(
+                f"Pins data entry {index} sha must be a 40-character hex string."
+            )
+
+        published_at = entry.get("published_at")
+        if not isinstance(published_at, str) or not validate_rfc3339(published_at):
+            raise SystemExit(
+                f"Pins data entry {index} published_at must be an RFC3339 timestamp."
+            )
+
+        if action_name in by_action:
+            raise SystemExit(f"Pins data duplicates {action_name}.")
 
         by_action[action_name] = {
             "action": action_name,
-            "tag": str(entry.get("tag", "")),
-            "sha": str(entry.get("sha", "")),
-            "published_at": str(entry.get("published_at", "")),
+            "tag": tag,
+            "sha": sha,
+            "published_at": published_at,
         }
 
     return by_action
@@ -352,6 +408,16 @@ def serialize_pins(entries_by_action: dict[str, dict[str, str]]) -> str:
         entries_by_action[action] for action in sorted(entries_by_action)
     ]
     return json.dumps({"actions": ordered_entries}, indent=2) + "\n"
+
+
+def prune_pin_entries(
+    entries_by_action: dict[str, dict[str, str]], allowed_actions: set[str]
+) -> dict[str, dict[str, str]]:
+    return {
+        action: entry
+        for action, entry in entries_by_action.items()
+        if action in allowed_actions
+    }
 
 
 def main() -> int:
@@ -380,6 +446,10 @@ def main() -> int:
     )
 
     current_entries = load_pin_entries(pins_file)
+    current_entries = prune_pin_entries(
+        current_entries,
+        {action_source.action for action_source in all_action_sources},
+    )
     for action_source in selected_actions:
         if action_source.ref_override is None:
             print(f"Resolving latest metadata for {action_source.action}...")

@@ -80,9 +80,6 @@ def changed_action_names(
 def main() -> int:
     args = parse_args()
     changed_paths = changed_files(args.base_ref)
-    if args.pins_file not in changed_paths:
-        print(f"{args.pins_file} was not changed in this pull request.")
-        return 0
 
     actions_file = Path(args.actions_file)
     pins_file = Path(args.pins_file)
@@ -103,6 +100,10 @@ def main() -> int:
             f"{args.actions_file}: "
             + ", ".join(unknown_actions)
         )
+
+    if args.pins_file not in changed_paths:
+        print(f"{args.pins_file} was not changed in this pull request.")
+        return 0
 
     serialized_pins = serialize_pins(current_entries)
     actual_pins = pins_file.read_text()

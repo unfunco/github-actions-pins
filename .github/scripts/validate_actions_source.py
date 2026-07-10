@@ -3,6 +3,7 @@
 import argparse
 import subprocess
 import sys
+import urllib.parse
 from pathlib import Path
 from typing import Optional
 
@@ -76,7 +77,27 @@ def subpath_for_action(action_name: str) -> Optional[str]:
     return parts[2]
 
 
-def validate_action_exists(action_name: str) -> None:
+def is_reusable_workflow_subpath(subpath: str) -> bool:
+    return (
+        subpath.startswith(".github/workflows/")
+        and (subpath.endswith(".yml") or subpath.endswith(".yaml"))
+    )
+
+
+def contents_api_path(
+    repo: str, path: str, commit_sha: Optional[str] = None
+) -> str:
+    api_path = f"/repos/{repo}/contents/{path}"
+    if commit_sha is None:
+        return api_path
+
+    encoded_sha = urllib.parse.quote(commit_sha, safe="")
+    return f"{api_path}?ref={encoded_sha}"
+
+
+def validate_action_exists(
+    action_name: str, commit_sha: Optional[str] = None
+) -> None:
     repo = repo_for_action(action_name)
     try:
         github_get_json(f"/repos/{repo}")
@@ -85,8 +106,20 @@ def validate_action_exists(action_name: str) -> None:
 
     subpath = subpath_for_action(action_name)
     if subpath is not None:
-        if github_path_exists(f"/repos/{repo}/contents/{subpath}/action.yml") or github_path_exists(
-            f"/repos/{repo}/contents/{subpath}/action.yaml"
+        if is_reusable_workflow_subpath(subpath):
+            if github_path_exists(contents_api_path(repo, subpath, commit_sha)):
+                print(f"Verified reusable workflow: {action_name}")
+                return
+
+            raise SystemExit(
+                f"{action_name} does not appear to be a reusable workflow "
+                f"(missing {subpath})."
+            )
+
+        if github_path_exists(
+            contents_api_path(repo, f"{subpath}/action.yml", commit_sha)
+        ) or github_path_exists(
+            contents_api_path(repo, f"{subpath}/action.yaml", commit_sha)
         ):
             print(f"Verified GitHub Action: {action_name}")
             return
@@ -97,9 +130,9 @@ def validate_action_exists(action_name: str) -> None:
         )
 
     if (
-        github_path_exists(f"/repos/{repo}/contents/action.yml")
-        or github_path_exists(f"/repos/{repo}/contents/action.yaml")
-        or github_path_exists(f"/repos/{repo}/contents/Dockerfile")
+        github_path_exists(contents_api_path(repo, "action.yml", commit_sha))
+        or github_path_exists(contents_api_path(repo, "action.yaml", commit_sha))
+        or github_path_exists(contents_api_path(repo, "Dockerfile", commit_sha))
     ):
         print(f"Verified GitHub Action repository: {action_name}")
         return
@@ -111,16 +144,18 @@ def validate_action_exists(action_name: str) -> None:
 
 
 def validate_source_entry(action_source: ActionSource) -> None:
-    validate_action_exists(action_source.action)
-
     if action_source.ref_override is None:
+        validate_action_exists(action_source.action)
         return
 
     try:
-        resolve_commit_for_ref(action_source.action, action_source.ref_override)
+        commit = resolve_commit_for_ref(
+            action_source.action, action_source.ref_override
+        )
     except GitHubApiError as exc:
         raise SystemExit(str(exc))
 
+    validate_action_exists(action_source.action, commit["sha"])
     print(
         f"Verified ref override for "
         f"{action_source.action}@{action_source.ref_override}"
