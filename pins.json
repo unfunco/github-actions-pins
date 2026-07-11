@@ -272,9 +272,9 @@
     },
     {
       "action": "github/codeql-action/analyze",
-      "tag": "codeql-bundle-v2.25.6",
-      "sha": "c35d1b164463ee62a100735382aaaa525c5d3496",
-      "published_at": "2026-06-04T10:41:08Z"
+      "tag": "codeql-bundle-v2.26.0",
+      "sha": "f58f0d11ebf5dedd870fab2f999275f7602cfa46",
+      "published_at": "2026-07-08T07:32:44Z"
     },
     {
       "action": "github/codeql-action/init",
