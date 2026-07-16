@@ -170,9 +170,9 @@
     },
     {
       "action": "actions/setup-go",
-      "tag": "v6.5.0",
-      "sha": "924ae3a1cded613372ab5595356fb5720e22ba16",
-      "published_at": "2026-06-24T02:49:39Z"
+      "tag": "v7.0.0",
+      "sha": "b7ad1dad31e06c5925ef5d2fc7ad053ef454303e",
+      "published_at": "2026-07-16T02:50:50Z"
     },
     {
       "action": "actions/setup-java",
