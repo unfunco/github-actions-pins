@@ -164,9 +164,9 @@
     },
     {
       "action": "actions/setup-dotnet",
-      "tag": "v5.4.0",
-      "sha": "26b0ec14cb23fa6904739307f278c14f94c95bf1",
-      "published_at": "2026-06-26T02:40:37Z"
+      "tag": "v6.0.0",
+      "sha": "a98b56852c35b8e3190ac28c8c2271da59106c68",
+      "published_at": "2026-07-16T02:56:10Z"
     },
     {
       "action": "actions/setup-go",
@@ -272,9 +272,9 @@
     },
     {
       "action": "github/codeql-action/analyze",
-      "tag": "codeql-bundle-v2.26.0",
-      "sha": "f58f0d11ebf5dedd870fab2f999275f7602cfa46",
-      "published_at": "2026-07-08T07:32:44Z"
+      "tag": "codeql-bundle-v2.26.1",
+      "sha": "e58424170fb0262c8d7ed60a2e84b9bffe205c67",
+      "published_at": "2026-07-16T09:06:32Z"
     },
     {
       "action": "github/codeql-action/init",
