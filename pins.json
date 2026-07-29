@@ -254,9 +254,9 @@
     },
     {
       "action": "docker/login-action",
-      "tag": "v4.5.1",
-      "sha": "abd2ef45e78c5afb21d64d4ca52ee8550d9572c7",
-      "published_at": "2026-07-24T12:40:05Z"
+      "tag": "v4.5.2",
+      "sha": "371161bbe7024a29a25c5e19bfcbc0804fe9ad2c",
+      "published_at": "2026-07-28T07:04:43Z"
     },
     {
       "action": "docker/setup-buildx-action",
