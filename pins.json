@@ -266,9 +266,9 @@
     },
     {
       "action": "dorny/paths-filter",
-      "tag": "v4.0.2",
-      "sha": "7b450fff21473bca461d4b92ce414b9d0420d706",
-      "published_at": "2026-07-02T17:46:08Z"
+      "tag": "v4.0.3",
+      "sha": "ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d",
+      "published_at": "2026-08-05T12:17:06Z"
     },
     {
       "action": "github/codeql-action/analyze",
