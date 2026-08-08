@@ -290,9 +290,9 @@
     },
     {
       "action": "googleapis/release-please-action",
-      "tag": "v4.4.0",
-      "sha": "16a9c90856f42705d54a6fda1823352bdc62cf38",
-      "published_at": "2025-10-23T18:05:33Z"
+      "tag": "v5.0.0",
+      "sha": "45996ed1f6d02564a971a2fa1b5860e934307cf7",
+      "published_at": "2026-04-22T18:03:34Z"
     },
     {
       "action": "hashicorp/setup-terraform",
