@@ -27,8 +27,8 @@
     {
       "action": "Homebrew/actions/git-try-push",
       "tag": "main",
-      "sha": "962acc985cf741e4f7a112a3cfa6194386b63edf",
-      "published_at": "2026-08-12T08:41:40Z"
+      "sha": "13f73d7cbd2f8f180d85d8f7201698cf110bf84c",
+      "published_at": "2026-08-14T08:30:57Z"
     },
     {
       "action": "Homebrew/actions/git-user-config",
