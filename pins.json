@@ -224,9 +224,9 @@
     },
     {
       "action": "aws-actions/amazon-ecr-login",
-      "tag": "v2.1.6",
-      "sha": "d539f0932e70871a027e9d5a9d8fc38589180a64",
-      "published_at": "2026-06-12T23:35:44Z"
+      "tag": "v2.1.7",
+      "sha": "03f1aad4c6c7ffd436567f42f9384779290529bd",
+      "published_at": "2026-08-19T21:34:26Z"
     },
     {
       "action": "aws-actions/configure-aws-credentials",
