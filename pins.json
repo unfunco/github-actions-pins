@@ -128,9 +128,9 @@
     },
     {
       "action": "actions/deploy-pages",
-      "tag": "v5.0.0",
-      "sha": "cd2ce8fcbc39b97be8ca5fce6e763baed58fa128",
-      "published_at": "2026-03-25T16:59:14Z"
+      "tag": "v5.0.1",
+      "sha": "368f82528645a54fb793d4d04e342629a3f51346",
+      "published_at": "2026-09-01T21:31:19Z"
     },
     {
       "action": "actions/download-artifact",
