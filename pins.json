@@ -295,6 +295,12 @@
       "published_at": "2026-04-22T18:03:34Z"
     },
     {
+      "action": "goreleaser/goreleaser-action",
+      "tag": "v7.2.3",
+      "sha": "f06c13b6b1a9625abc9e6e439d9c05a8f2190e94",
+      "published_at": "2026-06-29T11:37:51Z"
+    },
+    {
       "action": "hashicorp/setup-terraform",
       "tag": "v4.0.1",
       "sha": "dfe3c3f87815947d99a8997f908cb6525fc44e9e",
