@@ -230,9 +230,9 @@
     },
     {
       "action": "aws-actions/configure-aws-credentials",
-      "tag": "v6.2.4",
-      "sha": "cbe3b392738ccf3f987d68400dafcf4b0624a56c",
-      "published_at": "2026-08-31T23:25:22Z"
+      "tag": "v6.3.0",
+      "sha": "e1253824e5c10ff9df46874f81ed3ec929e19cfd",
+      "published_at": "2026-09-15T05:13:09Z"
     },
     {
       "action": "cli/gh-extension-precompile",
