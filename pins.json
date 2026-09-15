@@ -260,9 +260,9 @@
     },
     {
       "action": "docker/setup-buildx-action",
-      "tag": "v4.3.0",
-      "sha": "37fe631027851001ddb9b187196cc803df7f5f0e",
-      "published_at": "2026-08-19T09:41:47Z"
+      "tag": "v4.4.0",
+      "sha": "594f3bf4285d9ea8dc53c9a0c9c4092420091003",
+      "published_at": "2026-09-15T09:34:18Z"
     },
     {
       "action": "dorny/paths-filter",
