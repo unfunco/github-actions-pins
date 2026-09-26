@@ -325,6 +325,30 @@
       "published_at": "2022-11-03T14:43:43Z"
     },
     {
+      "action": "unfunco/meta/.github/workflows/build-go.yaml",
+      "tag": "v0.2.0",
+      "sha": "2cf07936a31dca1b82fe1e447f48e1580c10880e",
+      "published_at": "2026-09-26T13:21:18Z"
+    },
+    {
+      "action": "unfunco/meta/.github/workflows/release-please.yaml",
+      "tag": "v0.2.0",
+      "sha": "2cf07936a31dca1b82fe1e447f48e1580c10880e",
+      "published_at": "2026-09-26T13:21:18Z"
+    },
+    {
+      "action": "unfunco/meta/.github/workflows/verify-go.yaml",
+      "tag": "v0.2.0",
+      "sha": "2cf07936a31dca1b82fe1e447f48e1580c10880e",
+      "published_at": "2026-09-26T13:21:18Z"
+    },
+    {
+      "action": "unfunco/meta/.github/workflows/verify-terraform.yaml",
+      "tag": "v0.2.0",
+      "sha": "2cf07936a31dca1b82fe1e447f48e1580c10880e",
+      "published_at": "2026-09-26T13:21:18Z"
+    },
+    {
       "action": "unfunco/setup-gum",
       "tag": "v0.1.0",
       "sha": "8226de8b19489b3baefca8a6cc2a304fa0d82947",
