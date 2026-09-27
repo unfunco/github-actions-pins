@@ -326,9 +326,9 @@
     },
     {
       "action": "unfunco/meta/.github/workflows/build-go.yaml",
-      "tag": "v0.2.0",
-      "sha": "2cf07936a31dca1b82fe1e447f48e1580c10880e",
-      "published_at": "2026-09-26T13:21:18Z"
+      "tag": "v0.3.0",
+      "sha": "8a2e3873c609d86b9a67b353a9111bd44171240d",
+      "published_at": "2026-09-27T14:21:37Z"
     },
     {
       "action": "unfunco/meta/.github/workflows/release-please.yaml",
