@@ -296,9 +296,9 @@
     },
     {
       "action": "goreleaser/goreleaser-action",
-      "tag": "v7.2.3",
-      "sha": "f06c13b6b1a9625abc9e6e439d9c05a8f2190e94",
-      "published_at": "2026-06-29T11:37:51Z"
+      "tag": "v7.3.0",
+      "sha": "a4f02ab5355a589de60d917a659ce617ed19b3de",
+      "published_at": "2026-10-12T17:33:04Z"
     },
     {
       "action": "hashicorp/setup-terraform",
