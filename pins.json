@@ -27,8 +27,8 @@
     {
       "action": "Homebrew/actions/git-try-push",
       "tag": "main",
-      "sha": "dc7099b3e807f1e2ecc61f3ecabc840eedd5586a",
-      "published_at": "2026-10-04T20:01:08Z"
+      "sha": "4790763c0a3ba4036f72634dc079c4a7dfcd4878",
+      "published_at": "2026-10-16T08:24:15Z"
     },
     {
       "action": "Homebrew/actions/git-user-config",
@@ -104,9 +104,9 @@
     },
     {
       "action": "actions/create-github-app-token",
-      "tag": "v3.2.0",
-      "sha": "bcd2ba49218906704ab6c1aa796996da409d3eb1",
-      "published_at": "2026-05-12T23:31:37Z"
+      "tag": "v3.3.0",
+      "sha": "64ab729a6294000f5aa4a4bc0b73d1f32bc45510",
+      "published_at": "2026-10-12T23:42:23Z"
     },
     {
       "action": "actions/create-release",
