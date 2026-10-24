@@ -219,7 +219,7 @@
     {
       "action": "anthropics/claude-code-action",
       "tag": "v1",
-      "sha": "ae68417a745a5df4b2124873632bd73a2255e6f6",
+      "sha": "16f9f71ab9c490faf367f94dd294897edc25be33",
       "published_at": "2025-08-26T17:01:10Z"
     },
     {
@@ -254,9 +254,9 @@
     },
     {
       "action": "docker/login-action",
-      "tag": "v4.6.0",
-      "sha": "dbcb813823bdd20940b903addbd779551569679f",
-      "published_at": "2026-07-29T12:12:00Z"
+      "tag": "v4.7.0",
+      "sha": "81c6f93d4bc991e510b342a00b419b3bb4efc5c6",
+      "published_at": "2026-10-23T15:22:45Z"
     },
     {
       "action": "docker/setup-buildx-action",
