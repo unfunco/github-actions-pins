@@ -164,9 +164,9 @@
     },
     {
       "action": "actions/setup-dotnet",
-      "tag": "v6.0.0",
-      "sha": "a98b56852c35b8e3190ac28c8c2271da59106c68",
-      "published_at": "2026-07-16T02:56:10Z"
+      "tag": "v6.1.0",
+      "sha": "0f4a354dd5547a28c70b7853dbd95d5b67886e73",
+      "published_at": "2026-11-03T02:51:23Z"
     },
     {
       "action": "actions/setup-go",
