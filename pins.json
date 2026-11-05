@@ -176,9 +176,9 @@
     },
     {
       "action": "actions/setup-java",
-      "tag": "v6.1.0",
-      "sha": "b843ebf9b913146b38da2eaa7aeddf76074ae1ad",
-      "published_at": "2026-10-14T20:17:01Z"
+      "tag": "v6.2.0",
+      "sha": "77dd5b2ce225ea11469928ac317850245a74ae78",
+      "published_at": "2026-11-04T22:12:26Z"
     },
     {
       "action": "actions/setup-node",
