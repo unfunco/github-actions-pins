@@ -12,6 +12,7 @@ workflows:
     '.github/workflows/issue_pins.yaml':
         - 'actions/checkout@v6.0.2'
         - 'actions/create-github-app-token@v3.1.1'
+    '.github/workflows/pr_label.yaml': []
     '.github/workflows/pr_pins_data.yaml':
         - 'actions/checkout@v6.0.2'
     '.github/workflows/pr_pins_source.yaml':
