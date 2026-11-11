@@ -308,9 +308,9 @@
     },
     {
       "action": "peter-evans/create-pull-request",
-      "tag": "v8.1.2",
-      "sha": "15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8",
-      "published_at": "2026-11-09T08:46:04Z"
+      "tag": "v8.1.3",
+      "sha": "3ffccacd46053766916f087ce41d627c0b8cf2d1",
+      "published_at": "2026-11-10T13:06:27Z"
     },
     {
       "action": "terraform-docs/gh-actions",
